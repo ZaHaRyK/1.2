@@ -28,17 +28,17 @@ function parseTcpStringAsHttpRequest(string) {
 function processHttpRequest(method, uri, headers, body) {
     let statusCode=''
     let statusMessage=''
-    let body2=body
+    let body1=body
      .split("&") 
      .map((v) => v.split("=")) 
-    let review= body2[0][0] + ":" + body2[0][1] + " " + body2[1][0] + ":" + body2[1][1]
-    let rev= require("fs").readFileSync("passwords.txt").toString()
-    if(rev === ""){
+    let review= body1[0][0] + ":" + body1[0][1] + " " + body1[1][0] + ":" + body1[1][1]
+    let logpass= require("fs").readFileSync("passwords.txt").toString()
+    if(logpass === ""){
         return console.log(`          !ERROR!
 cause : unable to verify
 possible reason : no data for this account`)
     }
-    if(uri=="/api/checkLoginAndPassword" && headers.includes("Content-Type: application/x-www-form-urlencoded") && rev.includes(review)){
+    if(uri=="/api/checkLoginAndPassword" && headers.includes("Content-Type: application/x-www-form-urlencoded") && logpass.includes(review)){
          statusCode='200 OK'
          body='<h1 style="color:green">FOUND</h1>'
          statusMessage=body
